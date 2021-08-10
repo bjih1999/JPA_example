@@ -1,0 +1,46 @@
+package me.jihyun.jpashop.domain;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+/*
+테이블 이름을 orders로 지정해주는 이유
+- 지정해주지 않으면 자동으로 테이블 이름이 order가 되면서 order by 키워드와 충돌하는 경우가 생김
+- 따라서, 관용적으로 order 테이블은 orders로 자주 사용함
+ */
+@Table(name ="orders")
+@Data
+public class Order {
+
+    @Id @GeneratedValue
+    private Long Id;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToOne
+    /*
+    OneToOne 을 사용할 때의 고려 사항
+    - 어디에 FK를 두어야할까?
+        -> 접근이 많은 Entity에 둔다!
+
+    - 현 시스템에는 Order를 통해 Delivery를 조회하는 상황을 가정하고 있기 때문에
+      Order가 Delivery를 참조하는 것이 바람직 하다.
+     */
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
+    private LocalDateTime orderDateTime;    // 주문 시간
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; // 주문 상태 [ORDER, CANCLE]
+}
