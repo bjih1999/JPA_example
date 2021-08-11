@@ -20,14 +20,14 @@ public class Order {
     @Id @GeneratedValue
     private Long Id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     /*
     OneToOne 을 사용할 때의 고려 사항
     - 어디에 FK를 두어야할까?
@@ -43,4 +43,26 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // 주문 상태 [ORDER, CANCLE]
+
+    //==연관관계 메서드==//
+    /*
+    양방향 관계에서 사용할 때 편리함
+    연관 관계 세팅 로직을 원자적으로 묶어 놓은 메소드
+    둘 중 관계의 주도권을 갖는 엔티티에 추가한다.
+     */
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
+
 }

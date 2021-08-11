@@ -24,6 +24,15 @@ public class Member {
     @Embedded
     private Address address;
 
+
+    /*
+    필드에서 컬렉션을 초기화 하는 이유
+    1. null 문제에서 안전
+    2. JPA가 영속화하면 엔티티의 컬렉션을 하이버네이트가 제공하는 컬렉션으로 변경하여 관리한다.
+       즉, 하이버네이트가 관리하기 위해서 하이버네이트가 제공하는 컬렉션 타입이 되어야하는데,
+       별도의 로직 혹은 메소드에서 초기화를 해주는 경우 자바 내장 컬렉션으로 타입이 변경될 가능성이 있기 때문에
+       하이버네이트가 동작하는데 오류가 발생할수 있다. 따라서, 필드에서 초기화해주고 안건드리는 것이 "Best Practice"이다!!
+     */
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
