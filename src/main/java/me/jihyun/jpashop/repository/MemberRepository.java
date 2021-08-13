@@ -1,5 +1,6 @@
 package me.jihyun.jpashop.repository;
 
+import lombok.RequiredArgsConstructor;
 import me.jihyun.jpashop.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,10 +15,10 @@ JPA 자체를 다루는 것이 중요하다!
 -> JPA로 개발한 후 추 후 스프링 데이터 JPA로 전환하자!
  */
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
-    @PersistenceContext
-    private EntityManager em;
+    private final EntityManager em;
 
     public void save(Member member) {
         em.persist(member);
