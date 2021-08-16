@@ -43,7 +43,7 @@ public class MemberService {
     아래의 방법 또한 문제의 여지가 있는데, 멀티 스레드의 환경에서 2개의 같은 username의 요청이 동시에 들어오면
      둘 다 요청이 통과하게 된다. 따라서 최후의 보험으로 username(로그인 아이디)에 unique 제약을 걸어두는 것이 바람직하다.
      */
-    private void validateDuplicateMember(Member member) {
+    private void validateDuplicateMember(Member member) throws IllegalStateException {
         List<Member> foundMembers = memberRepository.findByUsername(member.getUsername());
         if (!foundMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");

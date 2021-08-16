@@ -21,6 +21,11 @@ public class MemberRepository {
     private final EntityManager em;
 
     public void save(Member member) {
+        /*
+        기본적으로 persist를 한다고 디비에 insert문이 전달되진 않는다.
+            Q: 그러면 언제 디비에 insert 되느냐?
+            A: Transaction이 커밋 될 때. 
+         */
         em.persist(member);
     }
 
@@ -34,7 +39,7 @@ public class MemberRepository {
     }
 
     public List<Member> findByUsername(String username) {
-        return em.createQuery("select m from Member m where m.name=:username", Member.class)
+        return em.createQuery("select m from Member m where m.username=:username", Member.class)
                 .setParameter("username", username)
                 .getResultList();
     }
