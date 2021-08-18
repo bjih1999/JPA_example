@@ -1,12 +1,13 @@
 package me.jihyun.jpashop.domain;
 
-import lombok.Data;
+import lombok.*;
 import me.jihyun.jpashop.domain.Item.Item;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderItem {
 
     @Id @GeneratedValue

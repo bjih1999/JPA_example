@@ -1,6 +1,6 @@
 package me.jihyun.jpashop.domain;
 
-import lombok.Data;
+import lombok.*;
 import me.jihyun.jpashop.domain.Item.Item;
 
 import javax.persistence.*;
@@ -15,7 +15,16 @@ import java.util.List;
 - 따라서, 관용적으로 order 테이블은 orders로 자주 사용함
  */
 @Table(name ="orders")
-@Data
+/*
+    NoArgsContructor(access = AccessLeve.PROTECTED)
+    접근자가 protected인 디폴트 생성자를 생성해 주는 롬복
+        - JPA 스펙에서 생성자는 protected까지 지원
+        - 이렇게 해두면 다른 디렉터리에서 쓸 수 없음
+        - 이 말은 즉슨, 이 생성자 쓰지 말고 생성 메소드를 사용을 해라. 라는 의미
+        - 생성 메소드 외에 다른 생성 로직이 있을 경우 유지 보수가 어려워 지기 때문
+ */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter
 public class Order {
 
     @Id @GeneratedValue
@@ -26,6 +35,13 @@ public class Order {
     private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    /*
+    cascade = CascadeType.ALL
+        - Order가 persist될 때, OrderItem도 종속적으로 persist를 함
+
+        Q: cascade를 언제 사용하는가?
+        A: 하위객체를 하나의 상위객체가 유일하게 관리하고 다른 객체가 참조하지 않을때 #private owner (ex. Order - Deilvery, Order = OrderItems)
+     */
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
