@@ -20,6 +20,7 @@ readOnly = true
         쓰기 트랜잭션이 필요한 메소드에는 Transactional을 다시 달아두면 readOnly 명령을 재지정할 수 있다.(기본 값이 readOnly = false) **
         -> 이 방법을 권장
 */
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -28,6 +29,7 @@ public class MemberService {
     /*
     회원 가입
      */
+    @Transactional
     public Long join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
