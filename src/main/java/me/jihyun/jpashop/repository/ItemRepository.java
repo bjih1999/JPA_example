@@ -19,6 +19,9 @@ public class ItemRepository {
         } else {
             em.merge(item);
         }
+        /*
+        여기서 merge는 굳이 필요가 없어 보임 왜냐면 어차피 변경감지를 사용할거니까
+         */
     }
 
     public Item findOne(Long id) {
