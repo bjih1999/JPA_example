@@ -9,6 +9,7 @@ import me.jihyun.jpashop.domain.OrderItem;
 import me.jihyun.jpashop.repository.ItemRepository;
 import me.jihyun.jpashop.repository.MemberRepository;
 import me.jihyun.jpashop.repository.OrderRepository;
+import me.jihyun.jpashop.repository.OrderSearch;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,8 +60,8 @@ public class OrderService {
         order.cancle();
     }
 
-//    //검색
-//    public List<Order> findOrders(OrderSearch orderSearch){
-//        return orderRepository.findAll(orderSearch);
-//    }
+    //검색
+    public List<Order> findOrders(OrderSearch orderSearch){
+        return orderRepository.findAllByCriteria(orderSearch);
+    }
 }

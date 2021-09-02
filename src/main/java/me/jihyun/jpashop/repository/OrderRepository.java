@@ -41,16 +41,51 @@ public class OrderRepository {
                 -> 실무에서 지양하는 것을 추천, 표준으로 JPA가 제공하긴하지만
                 치명적인 단점이 있음. 유지보수성이 좋지 않음.
      */
-//    public List<Order> findAll(OrderSearch orderSearch) {
-//        return em.createQuery("select o from Order o join o.member m" +
-//                " where o.status =:status " +
-//                " and m.username like :username", Order.class)
-//                .setParameter("status", orderSearch.getOrderStatus())
-//                .setParameter("username", orderSearch.getMemberName())
-//                .setFirstResult(100)    //setFirstResult : 100번째 부터
-//                .setMaxResults(1000)    //setMaxResult : 1000개  -> 이 2개를 사용해서 pagination 구현
-//                .getResultList();
-//    }
+    public List<Order> findAll(OrderSearch orderSearch) {
+        return em.createQuery("select o from Order o join o.member m" +
+                " where o.status =:status " +
+                " and m.username like :username", Order.class)
+                .setParameter("status", orderSearch.getOrderStatus())
+                .setParameter("username", orderSearch.getMemberName())
+                .setFirstResult(100)    //setFirstResult : 100번째 부터
+                .setMaxResults(1000)    //setMaxResult : 1000개  -> 이 2개를 사용해서 pagination 구현
+                .getResultList();
+    }
+
+    public List<Order> findAllByString(OrderSearch orderSearch) {
+        //language=JPAQL
+        String jpql = "select o From Order o join o.member m";
+        boolean isFirstCondition = true;
+        //주문 상태 검색
+        if (orderSearch.getOrderStatus() != null) {
+            if (isFirstCondition) {
+                jpql += " where";
+                isFirstCondition = false;
+            } else {
+                jpql += " and";
+            }
+            jpql += " o.status = :status";
+        }
+        //회원 이름 검색
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            if (isFirstCondition) {
+                jpql += " where";
+                isFirstCondition = false;
+            } else {
+                jpql += " and";
+            }
+            jpql += " m.username like :username";
+        }
+        TypedQuery<Order> query = em.createQuery(jpql, Order.class)
+                .setMaxResults(1000); //최대 1000건
+        if (orderSearch.getOrderStatus() != null) {
+            query = query.setParameter("status", orderSearch.getOrderStatus());
+        }
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            query = query.setParameter("name", orderSearch.getMemberName());
+        }
+        return query.getResultList();
+    }
 
     /*
         세번째 해결 방안(추천)
@@ -73,7 +108,7 @@ public class OrderRepository {
         //회원 이름 검색
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             Predicate name =
-                    cb.like(m.<String>get("name"), "%" +
+                    cb.like(m.<String>get("username"), "%" +
                             orderSearch.getMemberName() + "%");
             criteria.add(name);
         }
