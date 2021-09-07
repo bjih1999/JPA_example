@@ -1,12 +1,11 @@
 package me.jihyun.jpashop.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.jihyun.jpashop.domain.Member;
 import me.jihyun.jpashop.domain.Order;
 import me.jihyun.jpashop.domain.QOrder;
-import org.aspectj.weaver.ast.Or;
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class OrderCustomRepositoryImpl implements OrderCustomRepository {
+public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
@@ -44,16 +43,16 @@ public class OrderCustomRepositoryImpl implements OrderCustomRepository {
                 -> 실무에서 지양하는 것을 추천, 표준으로 JPA가 제공하긴하지만
                 치명적인 단점이 있음. 유지보수성이 좋지 않음.
      */
-//    public List<Order> findAll(OrderSearch orderSearch) {
-//        return em.createQuery("select o from Order o join o.member m" +
-//                " where o.status =:status " +
-//                " and m.username like :username", Order.class)
-//                .setParameter("status", orderSearch.getOrderStatus())
-//                .setParameter("username", orderSearch.getMemberName())
-//                .setFirstResult(100)    //setFirstResult : 100번째 부터
-//                .setMaxResults(1000)    //setMaxResult : 1000개  -> 이 2개를 사용해서 pagination 구현
-//                .getResultList();
-//    }
+    public List<Order> findAll(OrderSearch orderSearch) {
+        return em.createQuery("select o from Order o join o.member m" +
+                " where o.status =:status " +
+                " and m.username like :username", Order.class)
+                .setParameter("status", orderSearch.getOrderStatus())
+                .setParameter("username", orderSearch.getMemberName())
+                .setFirstResult(100)    //setFirstResult : 100번째 부터
+                .setMaxResults(1000)    //setMaxResult : 1000개  -> 이 2개를 사용해서 pagination 구현
+                .getResultList();
+    }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
         //language=JPAQL
@@ -118,14 +117,6 @@ public class OrderCustomRepositoryImpl implements OrderCustomRepository {
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
-    }
-
-    public List<Order> findAll(OrderSearch orderSearch) {
-
-        QOrder order = QOrder.order;
-
-        return from()
-
     }
 
 }

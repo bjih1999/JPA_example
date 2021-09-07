@@ -4,7 +4,7 @@ import me.jihyun.jpashop.domain.Order;
 
 import java.util.List;
 
-public interface OrderCustomRepository {
+public interface OrderRepositoryCustom {
 
     public void save(Order order);
 

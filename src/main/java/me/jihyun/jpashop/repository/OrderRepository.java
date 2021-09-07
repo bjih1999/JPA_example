@@ -1,2 +1,7 @@
-package me.jihyun.jpashop.repository;public interface OrderRepository {
+package me.jihyun.jpashop.repository;
+
+import me.jihyun.jpashop.domain.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Long, Order>, OrderRepositoryCustom {
 }
