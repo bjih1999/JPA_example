@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OrderRepositoryCustom {
 
-    public void save(Order order);
+//    public void save(Order order);
 
     public Order findOne(Long id);
 

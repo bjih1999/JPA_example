@@ -1,11 +1,12 @@
 package me.jihyun.jpashop.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+//import com.querydsl.core.types.dsl.BooleanExpression;
+//import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.jihyun.jpashop.domain.Member;
 import me.jihyun.jpashop.domain.Order;
-import me.jihyun.jpashop.domain.QOrder;
+import me.jihyun.jpashop.domain.OrderStatus;
+//import me.jihyun.jpashop.domain.QOrder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -20,11 +21,13 @@ import java.util.List;
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     private final EntityManager em;
-    private final JPAQueryFactory queryFactory;
+//    private final JPAQueryFactory queryFactory;
 
-    public void save(Order order) {
-        em.persist(order);
-    }
+//    private static final QOrder order = QOrder.order;
+
+//    public void save(Order order) {
+//        em.persist(order);
+//    }
 
     public Order findOne(Long id) {
         return em.find(Order.class, id);
@@ -118,5 +121,21 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
     }
+
+//    public List<Order> findAll(OrderSearch orderSearch) {
+//
+//        return queryFactory.selectFrom(order)
+//                .where(memberNameLike(orderSearch.getMemberName()),
+//                        orderStatusEq(orderSearch.getOrderStatus()))
+//                .fetch();
+//    }
+//
+//    private BooleanExpression memberNameLike(String memberName) {
+//        return memberName != null ? order.member.username.like(memberName) : null;
+//    }
+//
+//    private BooleanExpression orderStatusEq(OrderStatus orderStatus) {
+//        return orderStatus != null ? order.status.eq(orderStatus) : null;
+//    }
 
 }
