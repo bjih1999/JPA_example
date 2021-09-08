@@ -1,12 +1,12 @@
 package me.jihyun.jpashop.repository;
 
-//import com.querydsl.core.types.dsl.BooleanExpression;
-//import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.jihyun.jpashop.domain.Member;
 import me.jihyun.jpashop.domain.Order;
 import me.jihyun.jpashop.domain.OrderStatus;
-//import me.jihyun.jpashop.domain.QOrder;
+import me.jihyun.jpashop.domain.QOrder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -21,9 +21,9 @@ import java.util.List;
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     private final EntityManager em;
-//    private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-//    private static final QOrder order = QOrder.order;
+    private final static QOrder order = QOrder.order;
 
 //    public void save(Order order) {
 //        em.persist(order);
@@ -46,16 +46,16 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
                 -> 실무에서 지양하는 것을 추천, 표준으로 JPA가 제공하긴하지만
                 치명적인 단점이 있음. 유지보수성이 좋지 않음.
      */
-    public List<Order> findAll(OrderSearch orderSearch) {
-        return em.createQuery("select o from Order o join o.member m" +
-                " where o.status =:status " +
-                " and m.username like :username", Order.class)
-                .setParameter("status", orderSearch.getOrderStatus())
-                .setParameter("username", orderSearch.getMemberName())
-                .setFirstResult(100)    //setFirstResult : 100번째 부터
-                .setMaxResults(1000)    //setMaxResult : 1000개  -> 이 2개를 사용해서 pagination 구현
-                .getResultList();
-    }
+//    public List<Order> findAll(OrderSearch orderSearch) {
+//        return em.createQuery("select o from Order o join o.member m" +
+//                " where o.status =:status " +
+//                " and m.username like :username", Order.class)
+//                .setParameter("status", orderSearch.getOrderStatus())
+//                .setParameter("username", orderSearch.getMemberName())
+//                .setFirstResult(100)    //setFirstResult : 100번째 부터
+//                .setMaxResults(1000)    //setMaxResult : 1000개  -> 이 2개를 사용해서 pagination 구현
+//                .getResultList();
+//    }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
         //language=JPAQL
@@ -122,20 +122,20 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return query.getResultList();
     }
 
-//    public List<Order> findAll(OrderSearch orderSearch) {
-//
-//        return queryFactory.selectFrom(order)
-//                .where(memberNameLike(orderSearch.getMemberName()),
-//                        orderStatusEq(orderSearch.getOrderStatus()))
-//                .fetch();
-//    }
-//
-//    private BooleanExpression memberNameLike(String memberName) {
-//        return memberName != null ? order.member.username.like(memberName) : null;
-//    }
-//
-//    private BooleanExpression orderStatusEq(OrderStatus orderStatus) {
-//        return orderStatus != null ? order.status.eq(orderStatus) : null;
-//    }
+    public List<Order> findAll(OrderSearch orderSearch) {
+
+        return queryFactory.selectFrom(order)
+                .where(memberNameLike(orderSearch.getMemberName()),
+                        orderStatusEq(orderSearch.getOrderStatus()))
+                .fetch();
+    }
+
+    private BooleanExpression memberNameLike(String memberName) {
+        return memberName != null ? order.member.username.like(memberName) : null;
+    }
+
+    private BooleanExpression orderStatusEq(OrderStatus orderStatus) {
+        return orderStatus != null ? order.status.eq(orderStatus) : null;
+    }
 
 }
