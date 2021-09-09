@@ -35,21 +35,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // QueryDSL
-    implementation ("com.querydsl:querydsl-jpa:${queryDslVersion}")
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor(
             "javax.persistence:javax.persistence-api",
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-    testImplementation (
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-    testAnnotationProcessor (
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-
 }
 
 sourceSets {
