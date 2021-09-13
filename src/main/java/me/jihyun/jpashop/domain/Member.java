@@ -1,13 +1,16 @@
 package me.jihyun.jpashop.domain;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id @GeneratedValue
@@ -35,5 +38,21 @@ public class Member {
      */
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    public static Member joinMember(String username, Address address) {
+        Member newMember = new Member();
+        newMember.username = username;
+        newMember.address = address;
+
+        return newMember;
+    }
+
+    public void updateAddress(Address address) {
+        this.address = address;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+    }
 
 }
