@@ -33,6 +33,7 @@ public class Delivery {
     public static Delivery createDelivery(Address address) {
         Delivery delivery = new Delivery();
         delivery.setAddress(address);
+        delivery.setStatus(DeliveryStatus.READY);
         return delivery;
     }
 
@@ -42,5 +43,9 @@ public class Delivery {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public void setStatus(DeliveryStatus status) {
+        this.status = status;
     }
 }
