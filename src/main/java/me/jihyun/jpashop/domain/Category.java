@@ -1,6 +1,8 @@
 package me.jihyun.jpashop.domain;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.jihyun.jpashop.domain.Item.Item;
 
 import javax.persistence.*;
@@ -8,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 
     @Id @GeneratedValue
@@ -53,7 +56,24 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
 
-    public void addChildCategory(Category child) {
+
+    public static void createCategory(Category parent, String name) {
+        Category category = new Category();
+        category.setName(name);
+
+        category.setParent(parent);
+        parent.addChildCategory(category);
+    }
+
+    private void setParent(Category parent) {
+        this.parent = parent;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    private void addChildCategory(Category child) {
         this.child.add(child);
         child.setParent(this);
     }
