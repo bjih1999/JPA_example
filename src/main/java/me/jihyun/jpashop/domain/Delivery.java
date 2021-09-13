@@ -1,11 +1,15 @@
 package me.jihyun.jpashop.domain;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
 
     @Id @GeneratedValue
@@ -25,4 +29,18 @@ public class Delivery {
         -> 중간에 다른 상태 값이 추가되면 망함 ** ORDINAL은 절대 사용하지 말것! **
      */
     private DeliveryStatus status;
+
+    public static Delivery createDelivery(Address address) {
+        Delivery delivery = new Delivery();
+        delivery.setAddress(address);
+        return delivery;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }
