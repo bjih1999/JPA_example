@@ -30,7 +30,7 @@ public class Delivery {
      */
     private DeliveryStatus status;
 
-    public static Delivery createDelivery(Address address) {
+    public static Delivery of(Address address) {
         Delivery delivery = new Delivery();
         delivery.setAddress(address);
         delivery.setStatus(DeliveryStatus.READY);
