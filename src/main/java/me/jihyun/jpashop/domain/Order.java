@@ -24,7 +24,7 @@ import java.util.List;
         - 생성 메소드 외에 다른 생성 로직이 있을 경우 유지 보수가 어려워 지기 때문
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter @Setter
+@Getter
 public class Order {
 
     @Id @GeneratedValue
@@ -83,7 +83,7 @@ public class Order {
     }
 
     //==생성 메소드==//
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+    public static Order of(Member member, Delivery delivery, OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
@@ -91,7 +91,7 @@ public class Order {
             order.addOrderItem(orderItem);
         }
         order.setStatus(OrderStatus.ORDER);
-        order.setOrderDateTime(LocalDateTime.now());
+        order.orderDateTime = LocalDateTime.now();
 
         return order;
     }
@@ -106,6 +106,10 @@ public class Order {
         for (OrderItem orderItem : this.orderItems) {
             orderItem.cancle();
         }
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     //==조회 로직==//

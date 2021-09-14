@@ -36,13 +36,13 @@ public class OrderService {
         Item item = itemRepository.findOne(itemId);
 
         //배송정보 생성
-        Delivery delivery = Delivery.createDelivery(member.getAddress());
+        Delivery delivery = Delivery.of(member.getAddress());
 
         //주문 상품 생성
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
         //주문 생성
-        Order order = Order.createOrder(member, delivery, orderItem);
+        Order order = Order.of(member, delivery, orderItem);
 
         //주문 저장
         orderRepository.save(order);
