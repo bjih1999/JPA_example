@@ -39,7 +39,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-    public static Member joinMember(String username, Address address) {
+    public static Member of(String username, Address address) {
         Member newMember = new Member();
         newMember.username = username;
         newMember.address = address;
