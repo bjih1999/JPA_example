@@ -57,12 +57,13 @@ public class Category {
     private List<Category> child = new ArrayList<>();
 
 
-    public static void createCategory(Category parent, String name) {
+    public static Category of(Category parent, String name) {
         Category category = new Category();
         category.setName(name);
 
         category.setParent(parent);
         parent.addChildCategory(category);
+        return category;
     }
 
     private void setParent(Category parent) {
