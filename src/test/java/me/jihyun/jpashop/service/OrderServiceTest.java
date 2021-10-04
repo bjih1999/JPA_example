@@ -60,7 +60,7 @@ class OrderServiceTest {
     }
 
     private Member createMember(String username) {
-        Member member = Member.joinMember(username, new Address("서울", "강가", "123-123"));
+        Member member = Member.of(username, new Address("서울", "강가", "123-123"));
         em.persist(member);
         return member;
     }

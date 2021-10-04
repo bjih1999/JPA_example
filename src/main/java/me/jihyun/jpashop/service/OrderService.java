@@ -7,7 +7,7 @@ import me.jihyun.jpashop.domain.Member;
 import me.jihyun.jpashop.domain.Order;
 import me.jihyun.jpashop.domain.OrderItem;
 import me.jihyun.jpashop.repository.ItemRepository;
-import me.jihyun.jpashop.repository.MemberRepository;
+import me.jihyun.jpashop.repository.MemberRepositoryCustomImpl;
 import me.jihyun.jpashop.repository.OrderRepository;
 import me.jihyun.jpashop.repository.OrderSearch;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryCustomImpl memberRepository;
 
     private final ItemRepository itemRepository;
     /**

@@ -3,6 +3,7 @@ package me.jihyun.jpashop.service;
 import lombok.RequiredArgsConstructor;
 import me.jihyun.jpashop.domain.Member;
 import me.jihyun.jpashop.repository.MemberRepository;
+import me.jihyun.jpashop.repository.MemberRepositoryCustomImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,7 +1,8 @@
 package me.jihyun.jpashop.service;
 
+import me.jihyun.jpashop.domain.Address;
 import me.jihyun.jpashop.domain.Member;
-import me.jihyun.jpashop.repository.MemberRepository;
+import me.jihyun.jpashop.repository.MemberRepositoryCustomImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,13 +18,12 @@ class MemberServiceTest {
     private MemberService memberService;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberRepositoryCustomImpl memberRepository;
 
     @Test
     void joinTest() {
         //given
-        Member member = new Member();
-        member.setUsername("Jihyun");
+        Member member = Member.of("Jihyun", new Address("city", "street", "zipcode"));
 
         //when
         Long savedId = memberService.join(member);
@@ -35,11 +35,9 @@ class MemberServiceTest {
     @Test
     void joinTestIfDuplicate() {
         //given
-        Member member = new Member();
-        member.setUsername("Jihyun");
+        Member member = Member.of("Jihyun", new Address("city", "street", "zipcode"));
 
-        Member duplicatedMember = new Member();
-        duplicatedMember.setUsername("Jihyun");
+        Member duplicatedMember = Member.of("Jihyun", new Address("city2", "street2", "zipcode2"));
 
         //when
         memberService.join(member);
