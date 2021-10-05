@@ -18,6 +18,9 @@ public class Member {
 
     private String username;
 
+    @ManyToOne
+    private Group group;
+
     /*
     Embeddable - Embedded
     - Entity에서 속성이 가질 타입을 정의하고 사용할 때 사용하는 애노테이션
