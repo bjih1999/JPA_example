@@ -1,11 +1,8 @@
 package me.jihyun.jpashop.service;
 
-import me.jihyun.jpashop.domain.Address;
+import me.jihyun.jpashop.domain.*;
 import me.jihyun.jpashop.domain.Item.Book;
 import me.jihyun.jpashop.domain.Item.Item;
-import me.jihyun.jpashop.domain.Member;
-import me.jihyun.jpashop.domain.Order;
-import me.jihyun.jpashop.domain.OrderStatus;
 import me.jihyun.jpashop.exception.NotEnoughStockException;
 import me.jihyun.jpashop.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -60,7 +57,7 @@ class OrderServiceTest {
     }
 
     private Member createMember(String username) {
-        Member member = Member.of(username, new Address("서울", "강가", "123-123"));
+        Member member = Member.of(username, new Address("서울", "강가", "123-123"), new UserGroup());
         em.persist(member);
         return member;
     }

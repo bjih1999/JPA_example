@@ -3,8 +3,10 @@ package me.jihyun.jpashop.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +20,9 @@ public class Member {
 
     private String username;
 
-    @ManyToOne
-    private Group group;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private UserGroup group;
 
     /*
     Embeddable - Embedded
@@ -42,10 +45,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-    public static Member of(String username, Address address) {
+    public static Member of(String username, Address address, UserGroup group) {
         Member newMember = new Member();
         newMember.username = username;
         newMember.address = address;
+        newMember.group = group;
 
         return newMember;
     }
@@ -58,4 +62,8 @@ public class Member {
         orders.add(order);
     }
 
+    public void setGroup(UserGroup group) {
+        group = group;
+        group.addMember(this);
+    }
 }

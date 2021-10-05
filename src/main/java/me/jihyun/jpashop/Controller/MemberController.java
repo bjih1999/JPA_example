@@ -3,6 +3,7 @@ package me.jihyun.jpashop.Controller;
 import lombok.RequiredArgsConstructor;
 import me.jihyun.jpashop.domain.Address;
 import me.jihyun.jpashop.domain.Member;
+import me.jihyun.jpashop.domain.UserGroup;
 import me.jihyun.jpashop.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ public class MemberController {
 
         Address address = new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode());
 
-        Member member = Member.of(memberForm.getName(), address);
+        Member member = Member.of(memberForm.getName(), address, new UserGroup());
 
         memberService.join(member);
         return "redirect:/";
