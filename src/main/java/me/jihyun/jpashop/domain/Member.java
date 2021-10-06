@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,10 +60,5 @@ public class Member {
 
     public void addOrder(Order order) {
         orders.add(order);
-    }
-
-    public void setGroup(UserGroup group) {
-        group = group;
-        group.addMember(this);
     }
 }
